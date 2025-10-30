@@ -67,6 +67,57 @@ resource "google_pubsub_subscription" "hand_finder_subscription" {
   depends_on = [google_pubsub_topic.frame_processing_topic]
 }
 
+# Pub/Sub Subscription for the hamer-infer workers
+resource "google_pubsub_subscription" "hamer_infer_subscription" {
+  name  = "hamer-infer-subscription"
+  topic = google_pubsub_topic.frame_processing_topic.name
+
+  # 24 hours
+  message_retention_duration = "86400s"
+  # 60 seconds, allows for processing time and retries
+  ack_deadline_seconds = 60
+
+  retry_policy {
+    minimum_backoff = "10s"
+  }
+  enable_message_ordering = false
+  depends_on = [google_pubsub_topic.frame_processing_topic]
+}
+
+# Pub/Sub Subscription for the yolo-hand-pose workers
+resource "google_pubsub_subscription" "yolo_hand_pose_subscription" {
+  name  = "yolo-hand-pose-subscription"
+  topic = google_pubsub_topic.frame_processing_topic.name
+
+  # 24 hours
+  message_retention_duration = "86400s"
+  # 60 seconds, allows for processing time and retries
+  ack_deadline_seconds = 60
+
+  retry_policy {
+    minimum_backoff = "10s"
+  }
+  enable_message_ordering = false
+  depends_on = [google_pubsub_topic.frame_processing_topic]
+}
+
+# Pub/Sub Subscription for the hamer-hand-counter workers
+resource "google_pubsub_subscription" "hamer_hand_counter_subscription" {
+  name  = "hamer-hand-counter-subscription"
+  topic = google_pubsub_topic.frame_processing_topic.name
+
+  # 24 hours
+  message_retention_duration = "86400s"
+  # 60 seconds, allows for processing time and retries
+  ack_deadline_seconds = 60
+
+  retry_policy {
+    minimum_backoff = "10s"
+  }
+  enable_message_ordering = false
+  depends_on = [google_pubsub_topic.frame_processing_topic]
+}
+
 # VPC Network
 resource "google_compute_network" "vpc" {
   name                    = "gke-network"
@@ -108,6 +159,11 @@ resource "google_service_networking_connection" "vertex_ai_peering" {
 }
 
 # GKE Cluster
+data "google_container_cluster" "primary" {
+  name     = "gke-cluster"
+  location = "us-west1"
+}
+
 resource "google_container_cluster" "primary" {
   name     = "gke-cluster"
   location = "us-west1"
@@ -139,9 +195,8 @@ resource "google_container_node_pool" "default_pool" {
   location   = "us-west1"
   node_locations = ["us-west1-a"]
   cluster    = google_container_cluster.primary.name
-  node_count = 1
-  version = "1.33.5-gke.1080000"
-
+  node_count = 5
+  version    = data.google_container_cluster.primary.master_version
   node_config {
     machine_type = "e2-medium"
     disk_size_gb = 100
@@ -151,7 +206,6 @@ resource "google_container_node_pool" "default_pool" {
     ]
     labels = {
       "node-pool-type" = "default-pool"
-      "terraform-update-trigger" = "1"
     }
   }
 }
@@ -191,6 +245,7 @@ resource "google_container_node_pool" "streaming_pool" {
   node_locations = ["us-west1-a"]
   cluster    = google_container_cluster.primary.name
   node_count = 1
+  version    = data.google_container_cluster.primary.master_version
 
   node_config {
     machine_type = "e2-standard-8"
@@ -290,6 +345,110 @@ resource "google_monitoring_dashboard" "pubsub_dashboard" {
               "timeSeriesQuery": {
                 "timeSeriesFilter": {
                   "filter": "metric.type=\"pubsub.googleapis.com/topic/send_request_count\" resource.type=\"pubsub_topic\" resource.label.\"topic_id\"=\"frame-processing-topic\"",
+                  "aggregation": {
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": []
+                  }
+                },
+                "unitOverride": "1/s"
+              },
+              "plotType": "LINE"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Messages per second",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Hand Finder Message Read Rate",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"pubsub.googleapis.com/subscription/ack_message_count\" resource.type=\"pubsub_subscription\" resource.label.\"subscription_id\"=\"hand-finder-subscription\"",
+                  "aggregation": {
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": []
+                  }
+                },
+                "unitOverride": "1/s"
+              },
+              "plotType": "LINE"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Messages per second",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "HaMeR Message Read Rate",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"pubsub.googleapis.com/subscription/ack_message_count\" resource.type=\"pubsub_subscription\" resource.label.\"subscription_id\"=\"hamer-infer-subscription\"",
+                  "aggregation": {
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": []
+                  }
+                },
+                "unitOverride": "1/s"
+              },
+              "plotType": "LINE"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Messages per second",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "YOLO Hand Pose Message Read Rate",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"pubsub.googleapis.com/subscription/ack_message_count\" resource.type=\"pubsub_subscription\" resource.label.\"subscription_id\"=\"yolo-hand-pose-subscription\"",
+                  "aggregation": {
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": []
+                  }
+                },
+                "unitOverride": "1/s"
+              },
+              "plotType": "LINE"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Messages per second",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "HaMeR Hand Counter Message Read Rate",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"pubsub.googleapis.com/subscription/ack_message_count\" resource.type=\"pubsub_subscription\" resource.label.\"subscription_id\"=\"hamer-hand-counter-subscription\"",
                   "aggregation": {
                     "perSeriesAligner": "ALIGN_RATE",
                     "crossSeriesReducer": "REDUCE_SUM",
