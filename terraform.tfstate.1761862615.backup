@@ -1,7 +1,7 @@
 {
   "version": 4,
   "terraform_version": "1.5.7",
-  "serial": 616,
+  "serial": 289,
   "lineage": "d6461141-b298-8752-a86a-1f4264122e2a",
   "outputs": {
     "filestore_file_share_name": {
@@ -19,32 +19,693 @@
     "gke_cluster_region": {
       "value": "us-west1",
       "type": "string"
-    },
-    "standard_storage_bucket_name": {
-      "value": "lagorgeous-helping-hands-standard",
-      "type": "string"
     }
   },
   "resources": [
     {
       "mode": "data",
-      "type": "google_project",
-      "name": "project",
+      "type": "google_container_cluster",
+      "name": "primary",
       "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
       "instances": [
         {
           "schema_version": 0,
           "attributes": {
-            "auto_create_network": null,
-            "billing_account": "0170F9-8E8A39-51C270",
-            "folder_id": null,
-            "id": "projects/lagorgeous-helping-hands",
-            "labels": {},
-            "name": "lagorgeous-helping-hands",
-            "number": "815782769119",
-            "org_id": null,
-            "project_id": "lagorgeous-helping-hands",
-            "skip_delete": null
+            "addons_config": [
+              {
+                "cloudrun_config": [],
+                "config_connector_config": [],
+                "dns_cache_config": [],
+                "gce_persistent_disk_csi_driver_config": [
+                  {
+                    "enabled": true
+                  }
+                ],
+                "gcp_filestore_csi_driver_config": [
+                  {
+                    "enabled": true
+                  }
+                ],
+                "gcs_fuse_csi_driver_config": [],
+                "gke_backup_agent_config": [],
+                "horizontal_pod_autoscaling": [],
+                "http_load_balancing": [],
+                "network_policy_config": [
+                  {
+                    "disabled": true
+                  }
+                ]
+              }
+            ],
+            "allow_net_admin": null,
+            "authenticator_groups_config": [],
+            "binary_authorization": [
+              {
+                "enabled": false,
+                "evaluation_mode": ""
+              }
+            ],
+            "cluster_autoscaling": [
+              {
+                "auto_provisioning_defaults": [],
+                "enabled": false,
+                "resource_limits": []
+              }
+            ],
+            "cluster_ipv4_cidr": "10.28.0.0/14",
+            "confidential_nodes": [],
+            "cost_management_config": [],
+            "database_encryption": [
+              {
+                "key_name": "",
+                "state": "DECRYPTED"
+              }
+            ],
+            "datapath_provider": "",
+            "default_max_pods_per_node": null,
+            "default_snat_status": [
+              {
+                "disabled": false
+              }
+            ],
+            "description": "",
+            "dns_config": [],
+            "enable_autopilot": false,
+            "enable_binary_authorization": false,
+            "enable_intranode_visibility": false,
+            "enable_k8s_beta_apis": [],
+            "enable_kubernetes_alpha": false,
+            "enable_l4_ilb_subsetting": false,
+            "enable_legacy_abac": false,
+            "enable_shielded_nodes": true,
+            "enable_tpu": false,
+            "endpoint": "136.117.172.113",
+            "gateway_api_config": [],
+            "id": "projects/lagorgeous-helping-hands/locations/us-west1/clusters/gke-cluster",
+            "initial_node_count": 1,
+            "ip_allocation_policy": [],
+            "label_fingerprint": "a9dc16a7",
+            "location": "us-west1",
+            "logging_config": [
+              {
+                "enable_components": [
+                  "SYSTEM_COMPONENTS",
+                  "WORKLOADS"
+                ]
+              }
+            ],
+            "logging_service": "logging.googleapis.com/kubernetes",
+            "maintenance_policy": [],
+            "master_auth": [
+              {
+                "client_certificate": "",
+                "client_certificate_config": [
+                  {
+                    "issue_client_certificate": false
+                  }
+                ],
+                "client_key": "",
+                "cluster_ca_certificate": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQUpOQ3g3VVloNU12eDA3MEliYm9KdW93RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa056aGxaV0psWTJFdE1HVmxNaTAwTUdRNUxUbGtZbVF0WlRka1pqTmxPVEl3TlRreApNQ0FYRFRJMU1UQXhNekF5TlRFME0xb1lEekl3TlRVeE1EQTJNRE0xTVRReldqQXZNUzB3S3dZRFZRUURFeVEzCk9HVmxZbVZqWVMwd1pXVXlMVFF3WkRrdE9XUmlaQzFsTjJSbU0yVTVNakExT1RFd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FETlBsVDFJbG0xTzNnVFQwbU0vSTI0ZkFwV3VTem84ZWVISWlOYgpWZDJvOTVhbEVTb3BQbDArdTJVcXpURmZrMGRBZStHUVhFU3M3T1lkU1pqTGkxbENhNE9sbG9xT2dURTJVQ1BCCnVYMnVuNzJyeU9RdFQ1RHJUN2FKZ3duSWRFZWE3dVR2THIxWUVsRWRjMDRpTGdyY091WGRsYld2NXlRUm9jeTcKZm5RL2FDYnJCTCtTZ3JWLzVUTk5FYUp3NGJmajAvNnc3Qm5mQWFvbDBpYzBkREJnamgvZm0rdXRNNjZhUjdZUApaNDFXV2I1Qks0Vk5RdkNxVmVib3IxTG0zU3NzVzFxNHIwTk5NU0hmTUV1Q1hHVmtnVE9saTlTeitsZllBUTFhCndwWTd6QmNWNEx5MWxNQ28rNDJRcFV2RGx0YjlyZmV2UzZuU096QUZ0WGVuNXlXN2ZaY2pSeXhjZzhVQWRnRGoKZzBOZnQ3M1ZyMFJrait3RW03VHRCcVEvWmlRUWNiM0hpUkZsL1hpblVscFZEc2c0Vk1JSmxKSkpZN2Rmb1E0OApUeFdvS2UzMnRFTFRLVVYvREZYSkZaYUhUeDVscFZJZGRSNVNBTUlkOFVXQWlpU1V0SkpIcTFscXlhTW9GS2xDClZBZndMMGxqaWdETTdLUnd2cjQvNXg1U296VUNBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGTVhEamlHQmxsUTNFNWdscDVlMmV3WjlBOEUyTUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQjVhRGtqeHFDOHFOczZ3T2FBamZPNnB3WU04Z3d4TExQS0R5elhrZGdNClpSaHd0RWh4U2lSa3ZrSGRDejY1d3diNmVKYkhXM3JDWDhCSWhoRFpLTFFrOCs0NklPbFVmK1JUZ0hKNGpvQUIKdnFnVXNydk4wTzlxMjJTQ0ROK2xpR0JkWmdscmlRWmgxbzVFQVRzV0NKRVlhM214R3BVRmR0dU5lRFBDd3FpVwpDR3VWUlltcE9GRklDTzRBaHFCYy9RS0F4TkJZWEVZQmE4ZDV3MHFnTkVDY3hST3lCeHl0WEM1UEdzSmhGcGJRCnUwbmFpTFhtcWgyTW04ajBVMFRXakM0NHhqYXQ4ZmdhQUxiODkrb3hESzRDVjJzc0g0T29UVmZ5WmtHRVptc3gKYjdjZE93WHBTRGZwUVo1b2twVnBhS2UwYmt6OGp1WThkWXVqcXhkS001ODNGQm5WS09DV2RUYjJYNzNBNlhvYwpXN2pLOXFIbWdyMWhkTEFaNkJ6M2x5TnBYWHo5M25VclVQU1hEOHhSeGY1bjZHaUJWaUowVGxQZHJzamNuZk5lClNGRnNFeTJXbjVaUWx2cTlyRHRhQm9VV3czMzN6cjdRUGU4d0poYmphQ0pqaHBEZk1jUzVuNmlXWWFBY2lUd1AKdVZOTjczbnJ0VWQ1MTVOZWhrZWlKZWM9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
+              }
+            ],
+            "master_authorized_networks_config": [],
+            "master_version": "1.33.5-gke.1080000",
+            "mesh_certificates": [],
+            "min_master_version": null,
+            "monitoring_config": [
+              {
+                "advanced_datapath_observability_config": [
+                  {
+                    "enable_metrics": false,
+                    "relay_mode": ""
+                  }
+                ],
+                "enable_components": [
+                  "SYSTEM_COMPONENTS",
+                  "STORAGE",
+                  "HPA",
+                  "POD",
+                  "DAEMONSET",
+                  "DEPLOYMENT",
+                  "STATEFULSET",
+                  "JOBSET",
+                  "CADVISOR",
+                  "KUBELET",
+                  "DCGM"
+                ],
+                "managed_prometheus": [
+                  {
+                    "enabled": true
+                  }
+                ]
+              }
+            ],
+            "monitoring_service": "monitoring.googleapis.com/kubernetes",
+            "name": "gke-cluster",
+            "network": "projects/lagorgeous-helping-hands/global/networks/gke-network",
+            "network_policy": [
+              {
+                "enabled": false,
+                "provider": "PROVIDER_UNSPECIFIED"
+              }
+            ],
+            "networking_mode": "ROUTES",
+            "node_config": [
+              {
+                "advanced_machine_features": [],
+                "boot_disk_kms_key": "",
+                "confidential_nodes": [],
+                "disk_size_gb": 100,
+                "disk_type": "pd-standard",
+                "ephemeral_storage_local_ssd_config": [],
+                "fast_socket": [],
+                "gcfs_config": [],
+                "guest_accelerator": [
+                  {
+                    "count": 1,
+                    "gpu_driver_installation_config": [
+                      {
+                        "gpu_driver_version": "DEFAULT"
+                      }
+                    ],
+                    "gpu_partition_size": "",
+                    "gpu_sharing_config": [],
+                    "type": "nvidia-l4"
+                  }
+                ],
+                "gvnic": [],
+                "host_maintenance_policy": [],
+                "image_type": "COS_CONTAINERD",
+                "kubelet_config": [
+                  {
+                    "cpu_cfs_quota": false,
+                    "cpu_cfs_quota_period": "",
+                    "cpu_manager_policy": "",
+                    "pod_pids_limit": 0
+                  }
+                ],
+                "labels": {
+                  "node-pool-type": "gpu-pool"
+                },
+                "linux_node_config": [],
+                "local_nvme_ssd_block_config": [],
+                "local_ssd_count": 0,
+                "logging_variant": "DEFAULT",
+                "machine_type": "g2-standard-4",
+                "metadata": {
+                  "disable-legacy-endpoints": "true"
+                },
+                "min_cpu_platform": "",
+                "node_group": "",
+                "oauth_scopes": [
+                  "https://www.googleapis.com/auth/cloud-platform"
+                ],
+                "preemptible": false,
+                "reservation_affinity": [],
+                "resource_labels": {
+                  "goog-gke-accelerator-type": "nvidia-l4",
+                  "goog-gke-node-pool-provisioning-model": "on-demand"
+                },
+                "service_account": "default",
+                "shielded_instance_config": [
+                  {
+                    "enable_integrity_monitoring": true,
+                    "enable_secure_boot": false
+                  }
+                ],
+                "sole_tenant_config": [],
+                "spot": false,
+                "tags": [],
+                "taint": [
+                  {
+                    "effect": "NO_SCHEDULE",
+                    "key": "nvidia.com/gpu",
+                    "value": "present"
+                  }
+                ],
+                "workload_metadata_config": []
+              }
+            ],
+            "node_locations": [
+              "us-west1-a",
+              "us-west1-b",
+              "us-west1-c"
+            ],
+            "node_pool": [
+              {
+                "autoscaling": [],
+                "initial_node_count": 1,
+                "instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-gpu-pool-418e631d-grp"
+                ],
+                "managed_instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-gpu-pool-418e631d-grp"
+                ],
+                "management": [
+                  {
+                    "auto_repair": true,
+                    "auto_upgrade": true
+                  }
+                ],
+                "max_pods_per_node": 0,
+                "name": "gpu-pool",
+                "name_prefix": "",
+                "network_config": [],
+                "node_config": [
+                  {
+                    "advanced_machine_features": [],
+                    "boot_disk_kms_key": "",
+                    "confidential_nodes": [],
+                    "disk_size_gb": 100,
+                    "disk_type": "pd-standard",
+                    "ephemeral_storage_local_ssd_config": [],
+                    "fast_socket": [],
+                    "gcfs_config": [],
+                    "guest_accelerator": [
+                      {
+                        "count": 1,
+                        "gpu_driver_installation_config": [
+                          {
+                            "gpu_driver_version": "DEFAULT"
+                          }
+                        ],
+                        "gpu_partition_size": "",
+                        "gpu_sharing_config": [],
+                        "type": "nvidia-l4"
+                      }
+                    ],
+                    "gvnic": [],
+                    "host_maintenance_policy": [],
+                    "image_type": "COS_CONTAINERD",
+                    "kubelet_config": [
+                      {
+                        "cpu_cfs_quota": false,
+                        "cpu_cfs_quota_period": "",
+                        "cpu_manager_policy": "",
+                        "pod_pids_limit": 0
+                      }
+                    ],
+                    "labels": {
+                      "node-pool-type": "gpu-pool"
+                    },
+                    "linux_node_config": [],
+                    "local_nvme_ssd_block_config": [],
+                    "local_ssd_count": 0,
+                    "logging_variant": "DEFAULT",
+                    "machine_type": "g2-standard-4",
+                    "metadata": {
+                      "disable-legacy-endpoints": "true"
+                    },
+                    "min_cpu_platform": "",
+                    "node_group": "",
+                    "oauth_scopes": [
+                      "https://www.googleapis.com/auth/cloud-platform"
+                    ],
+                    "preemptible": false,
+                    "reservation_affinity": [],
+                    "resource_labels": {
+                      "goog-gke-accelerator-type": "nvidia-l4",
+                      "goog-gke-node-pool-provisioning-model": "on-demand"
+                    },
+                    "service_account": "default",
+                    "shielded_instance_config": [
+                      {
+                        "enable_integrity_monitoring": true,
+                        "enable_secure_boot": false
+                      }
+                    ],
+                    "sole_tenant_config": [],
+                    "spot": false,
+                    "tags": [],
+                    "taint": [
+                      {
+                        "effect": "NO_SCHEDULE",
+                        "key": "nvidia.com/gpu",
+                        "value": "present"
+                      }
+                    ],
+                    "workload_metadata_config": []
+                  }
+                ],
+                "node_count": 1,
+                "node_locations": [
+                  "us-west1-a"
+                ],
+                "placement_policy": [],
+                "upgrade_settings": [
+                  {
+                    "blue_green_settings": [],
+                    "max_surge": 1,
+                    "max_unavailable": 0,
+                    "strategy": "SURGE"
+                  }
+                ],
+                "version": "1.33.5-gke.1080000"
+              },
+              {
+                "autoscaling": [],
+                "initial_node_count": 5,
+                "instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-default-pool-e8f29a6f-grp"
+                ],
+                "managed_instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-default-pool-e8f29a6f-grp"
+                ],
+                "management": [
+                  {
+                    "auto_repair": true,
+                    "auto_upgrade": true
+                  }
+                ],
+                "max_pods_per_node": 0,
+                "name": "default-pool",
+                "name_prefix": "",
+                "network_config": [],
+                "node_config": [
+                  {
+                    "advanced_machine_features": [],
+                    "boot_disk_kms_key": "",
+                    "confidential_nodes": [],
+                    "disk_size_gb": 100,
+                    "disk_type": "pd-standard",
+                    "ephemeral_storage_local_ssd_config": [],
+                    "fast_socket": [],
+                    "gcfs_config": [],
+                    "guest_accelerator": [],
+                    "gvnic": [],
+                    "host_maintenance_policy": [],
+                    "image_type": "COS_CONTAINERD",
+                    "kubelet_config": [
+                      {
+                        "cpu_cfs_quota": false,
+                        "cpu_cfs_quota_period": "",
+                        "cpu_manager_policy": "",
+                        "pod_pids_limit": 0
+                      }
+                    ],
+                    "labels": {
+                      "node-pool-type": "default-pool"
+                    },
+                    "linux_node_config": [],
+                    "local_nvme_ssd_block_config": [],
+                    "local_ssd_count": 0,
+                    "logging_variant": "DEFAULT",
+                    "machine_type": "e2-medium",
+                    "metadata": {
+                      "disable-legacy-endpoints": "true"
+                    },
+                    "min_cpu_platform": "",
+                    "node_group": "",
+                    "oauth_scopes": [
+                      "https://www.googleapis.com/auth/cloud-platform"
+                    ],
+                    "preemptible": false,
+                    "reservation_affinity": [],
+                    "resource_labels": {
+                      "goog-gke-node-pool-provisioning-model": "on-demand"
+                    },
+                    "service_account": "default",
+                    "shielded_instance_config": [
+                      {
+                        "enable_integrity_monitoring": true,
+                        "enable_secure_boot": false
+                      }
+                    ],
+                    "sole_tenant_config": [],
+                    "spot": false,
+                    "tags": [],
+                    "taint": [],
+                    "workload_metadata_config": []
+                  }
+                ],
+                "node_count": 5,
+                "node_locations": [
+                  "us-west1-a"
+                ],
+                "placement_policy": [],
+                "upgrade_settings": [
+                  {
+                    "blue_green_settings": [],
+                    "max_surge": 1,
+                    "max_unavailable": 0,
+                    "strategy": "SURGE"
+                  }
+                ],
+                "version": "1.33.5-gke.1080000"
+              },
+              {
+                "autoscaling": [],
+                "initial_node_count": 1,
+                "instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-streaming-pool-aabf093a-grp"
+                ],
+                "managed_instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-streaming-pool-aabf093a-grp"
+                ],
+                "management": [
+                  {
+                    "auto_repair": true,
+                    "auto_upgrade": true
+                  }
+                ],
+                "max_pods_per_node": 0,
+                "name": "streaming-pool",
+                "name_prefix": "",
+                "network_config": [],
+                "node_config": [
+                  {
+                    "advanced_machine_features": [],
+                    "boot_disk_kms_key": "",
+                    "confidential_nodes": [],
+                    "disk_size_gb": 100,
+                    "disk_type": "pd-standard",
+                    "ephemeral_storage_local_ssd_config": [],
+                    "fast_socket": [],
+                    "gcfs_config": [],
+                    "guest_accelerator": [],
+                    "gvnic": [],
+                    "host_maintenance_policy": [],
+                    "image_type": "COS_CONTAINERD",
+                    "kubelet_config": [
+                      {
+                        "cpu_cfs_quota": false,
+                        "cpu_cfs_quota_period": "",
+                        "cpu_manager_policy": "",
+                        "pod_pids_limit": 0
+                      }
+                    ],
+                    "labels": {
+                      "node-pool-type": "streaming-pool"
+                    },
+                    "linux_node_config": [],
+                    "local_nvme_ssd_block_config": [],
+                    "local_ssd_count": 0,
+                    "logging_variant": "DEFAULT",
+                    "machine_type": "e2-standard-8",
+                    "metadata": {
+                      "disable-legacy-endpoints": "true"
+                    },
+                    "min_cpu_platform": "",
+                    "node_group": "",
+                    "oauth_scopes": [
+                      "https://www.googleapis.com/auth/cloud-platform"
+                    ],
+                    "preemptible": false,
+                    "reservation_affinity": [],
+                    "resource_labels": {
+                      "goog-gke-node-pool-provisioning-model": "on-demand"
+                    },
+                    "service_account": "default",
+                    "shielded_instance_config": [
+                      {
+                        "enable_integrity_monitoring": true,
+                        "enable_secure_boot": false
+                      }
+                    ],
+                    "sole_tenant_config": [],
+                    "spot": false,
+                    "tags": [],
+                    "taint": [],
+                    "workload_metadata_config": []
+                  }
+                ],
+                "node_count": 1,
+                "node_locations": [
+                  "us-west1-a"
+                ],
+                "placement_policy": [],
+                "upgrade_settings": [
+                  {
+                    "blue_green_settings": [],
+                    "max_surge": 1,
+                    "max_unavailable": 0,
+                    "strategy": "SURGE"
+                  }
+                ],
+                "version": "1.33.5-gke.1080000"
+              },
+              {
+                "autoscaling": [],
+                "initial_node_count": 10,
+                "instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-recorder-pool-32654600-grp"
+                ],
+                "managed_instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-recorder-pool-32654600-grp"
+                ],
+                "management": [
+                  {
+                    "auto_repair": true,
+                    "auto_upgrade": true
+                  }
+                ],
+                "max_pods_per_node": 0,
+                "name": "recorder-pool",
+                "name_prefix": "",
+                "network_config": [],
+                "node_config": [
+                  {
+                    "advanced_machine_features": [],
+                    "boot_disk_kms_key": "",
+                    "confidential_nodes": [],
+                    "disk_size_gb": 100,
+                    "disk_type": "pd-standard",
+                    "ephemeral_storage_local_ssd_config": [],
+                    "fast_socket": [],
+                    "gcfs_config": [],
+                    "guest_accelerator": [],
+                    "gvnic": [],
+                    "host_maintenance_policy": [],
+                    "image_type": "COS_CONTAINERD",
+                    "kubelet_config": [
+                      {
+                        "cpu_cfs_quota": false,
+                        "cpu_cfs_quota_period": "",
+                        "cpu_manager_policy": "",
+                        "pod_pids_limit": 0
+                      }
+                    ],
+                    "labels": {
+                      "node-pool-type": "recorder-pool"
+                    },
+                    "linux_node_config": [],
+                    "local_nvme_ssd_block_config": [],
+                    "local_ssd_count": 0,
+                    "logging_variant": "DEFAULT",
+                    "machine_type": "e2-standard-8",
+                    "metadata": {
+                      "disable-legacy-endpoints": "true"
+                    },
+                    "min_cpu_platform": "",
+                    "node_group": "",
+                    "oauth_scopes": [
+                      "https://www.googleapis.com/auth/cloud-platform"
+                    ],
+                    "preemptible": false,
+                    "reservation_affinity": [],
+                    "resource_labels": {
+                      "goog-gke-node-pool-provisioning-model": "on-demand"
+                    },
+                    "service_account": "default",
+                    "shielded_instance_config": [
+                      {
+                        "enable_integrity_monitoring": true,
+                        "enable_secure_boot": false
+                      }
+                    ],
+                    "sole_tenant_config": [],
+                    "spot": false,
+                    "tags": [],
+                    "taint": [],
+                    "workload_metadata_config": []
+                  }
+                ],
+                "node_count": 10,
+                "node_locations": [
+                  "us-west1-a"
+                ],
+                "placement_policy": [],
+                "upgrade_settings": [
+                  {
+                    "blue_green_settings": [],
+                    "max_surge": 1,
+                    "max_unavailable": 0,
+                    "strategy": "SURGE"
+                  }
+                ],
+                "version": "1.33.5-gke.1080000"
+              }
+            ],
+            "node_pool_auto_config": [
+              {
+                "network_tags": null
+              }
+            ],
+            "node_pool_defaults": [
+              {
+                "node_config_defaults": [
+                  {
+                    "logging_variant": "DEFAULT"
+                  }
+                ]
+              }
+            ],
+            "node_version": "1.33.5-gke.1080000",
+            "notification_config": [
+              {
+                "pubsub": [
+                  {
+                    "enabled": false,
+                    "filter": [],
+                    "topic": ""
+                  }
+                ]
+              }
+            ],
+            "operation": null,
+            "private_cluster_config": [
+              {
+                "enable_private_endpoint": false,
+                "enable_private_nodes": false,
+                "master_global_access_config": [
+                  {
+                    "enabled": false
+                  }
+                ],
+                "master_ipv4_cidr_block": "",
+                "peering_name": "",
+                "private_endpoint": "10.10.0.14",
+                "private_endpoint_subnetwork": "",
+                "public_endpoint": "136.117.172.113"
+              }
+            ],
+            "private_ipv6_google_access": "",
+            "project": "lagorgeous-helping-hands",
+            "release_channel": [
+              {
+                "channel": "REGULAR"
+              }
+            ],
+            "remove_default_node_pool": null,
+            "resource_labels": {},
+            "resource_usage_export_config": [],
+            "security_posture_config": [
+              {
+                "mode": "BASIC",
+                "vulnerability_mode": "VULNERABILITY_MODE_UNSPECIFIED"
+              }
+            ],
+            "self_link": "https://container.googleapis.com/v1/projects/lagorgeous-helping-hands/locations/us-west1/clusters/gke-cluster",
+            "service_external_ips_config": [
+              {
+                "enabled": false
+              }
+            ],
+            "services_ipv4_cidr": "10.31.240.0/20",
+            "subnetwork": "projects/lagorgeous-helping-hands/regions/us-west1/subnetworks/gke-subnet",
+            "tpu_ipv4_cidr_block": "",
+            "vertical_pod_autoscaling": [],
+            "workload_identity_config": []
           },
           "sensitive_attributes": []
         }
@@ -237,7 +898,7 @@
             "enable_legacy_abac": false,
             "enable_shielded_nodes": true,
             "enable_tpu": false,
-            "endpoint": "136.117.90.30",
+            "endpoint": "136.117.172.113",
             "gateway_api_config": [],
             "id": "projects/lagorgeous-helping-hands/locations/us-west1/clusters/gke-cluster",
             "initial_node_count": 1,
@@ -263,11 +924,11 @@
                   }
                 ],
                 "client_key": "",
-                "cluster_ca_certificate": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRVk1DMm92TzJpdEdIajhYS054YWhNREFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlSbVpqZG1ZVEpoTlMwellUVTNMVFEzWkRZdFltTXlNaTFsTnpObU9XSXlZMlU1WVRjdwpJQmNOTWpVeE1UQXpNakF5T1RJNFdoZ1BNakExTlRFd01qY3lNVEk1TWpoYU1DOHhMVEFyQmdOVkJBTVRKR1ptCk4yWmhNbUUxTFROaE5UY3RORGRrTmkxaVl6SXlMV1UzTTJZNVlqSmpaVGxoTnpDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQVBoWFZQbzNSTzRrR3Iwb1Z3UjlnSXJFTFljNGdnT3RHRlgvdXNhYwowTW9TWFE2N1VjR0FWcytmdDZHZTFnOFF0U0pJaVRVbDJNbnM4L2xjL1RlYkYvbVFic3dCQUJ0ZDN3ektPN3dJCnZ2MExnZm5tOGR2Y09oeDVkZXNwVEFMZEQ1TzVnZWdtdk91ZFFscmhZeS95TENuaUlRRHc5MVNzRWtvU2R6MTAKRnlpM3haWVhEV3NzcUQxSnl1c3ljV1publZmMUlvR3dsdy9qMlJZYmFGUTVlZ1daNllQVTB0ckl0aXZuZS9SVwpFcWQ1MFZMZDIxN1daVjJLbFpaOTRvcDM3UDVNVkFEaE9KaDNOMDNRbEIyTUx0UjZlK1V5MzlVSjA4bUNmejhhCk1USWxxQlFTVTBmVVlSdWNjejAwZkErVGhFK2ExZnYrY3dSQmFFamNsUmIvZ3orVm56WWR3UnFlY3IxbHZBaVgKYUU3Ym9CNFdUcnF5TGFvdUNQa2pXMXAwck8zbzdIS2dNZWI5dG9MYUtUQitScUNPeVdkS1VDNmpvcG5SSHFkNwo2NVVDdDVLcWplWmp4S1QrU3dFOGVGbUoraVIyS0M3VlpibHdHV1dtOVJXcEpYNDd0bDVkY1VuakpYQlFJU2hwCjZDdGpma2NJVklYYW5pK1EvdFdHR2xDb2RRSURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVVDM1JGVi9KeENrdEx3d2dwN2lkbnBjT0pNQjR3RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFCbjgvcnhWLzJhT1cwZEdqOXMrcVZteURFUFcvNTlNeGNOZFUremhwc1pQCnNvc3lFVldtMVE3MDliZ3dKRjAwTjc0MlI0MG5laTZlVTJSWUZESEhhb1lWZFNHNmpPYkgzNklFUmJGRUhpYmoKbjBEY1dFcjBsb1Boei9KcENKVmR2ZjkrNi9rNDZ1YmJodElVcGd1bDg4Y3FEVW5yNWpYWFFlOWR3c29lZTlkRwo0c3BDdSswYUw5N21zV1FZS3ZrUGs4eFZlWjNoUHc3aFFaU1p6YUk4Y1h3VHFidXNsOFRNRU5oNEJibTkrWWoxCkd4TWdZK0t3ZkVPdXAvWjdDb3NFVWZWbncvUkYrZWlrZFhOM2FsenFMUUlhTG05YjZ2VmhuaFpsOUNwVm5hSDAKL2gzZS9IK3RLR2p5MExFb3BraDZUNjErM1lZTTJ6M3pqT09EK0Y0ajdVdW5nTG0zVDVWZ0pURFl0aVpCUzV0VQpra09sZ01sRnd1SFFiMUdWT2pTdVVnTHZWamdNUjRCNnFhM0hkeFZ5bk9wN0hObWxqWDNKdi8yTEk5SUlNWFBtClFSTCtRRnQ3dmJjZ3czeTNvTTRTQW9nMWpuWXI3cGtwcm9vNWdTaGIzUk9vSUhFUkMwRkcyZ2pBcm9rYjFiblQKdEdHT0dOYWZmM012MXNRNi9jVmFrUT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
+                "cluster_ca_certificate": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQUpOQ3g3VVloNU12eDA3MEliYm9KdW93RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa056aGxaV0psWTJFdE1HVmxNaTAwTUdRNUxUbGtZbVF0WlRka1pqTmxPVEl3TlRreApNQ0FYRFRJMU1UQXhNekF5TlRFME0xb1lEekl3TlRVeE1EQTJNRE0xTVRReldqQXZNUzB3S3dZRFZRUURFeVEzCk9HVmxZbVZqWVMwd1pXVXlMVFF3WkRrdE9XUmlaQzFsTjJSbU0yVTVNakExT1RFd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FETlBsVDFJbG0xTzNnVFQwbU0vSTI0ZkFwV3VTem84ZWVISWlOYgpWZDJvOTVhbEVTb3BQbDArdTJVcXpURmZrMGRBZStHUVhFU3M3T1lkU1pqTGkxbENhNE9sbG9xT2dURTJVQ1BCCnVYMnVuNzJyeU9RdFQ1RHJUN2FKZ3duSWRFZWE3dVR2THIxWUVsRWRjMDRpTGdyY091WGRsYld2NXlRUm9jeTcKZm5RL2FDYnJCTCtTZ3JWLzVUTk5FYUp3NGJmajAvNnc3Qm5mQWFvbDBpYzBkREJnamgvZm0rdXRNNjZhUjdZUApaNDFXV2I1Qks0Vk5RdkNxVmVib3IxTG0zU3NzVzFxNHIwTk5NU0hmTUV1Q1hHVmtnVE9saTlTeitsZllBUTFhCndwWTd6QmNWNEx5MWxNQ28rNDJRcFV2RGx0YjlyZmV2UzZuU096QUZ0WGVuNXlXN2ZaY2pSeXhjZzhVQWRnRGoKZzBOZnQ3M1ZyMFJrait3RW03VHRCcVEvWmlRUWNiM0hpUkZsL1hpblVscFZEc2c0Vk1JSmxKSkpZN2Rmb1E0OApUeFdvS2UzMnRFTFRLVVYvREZYSkZaYUhUeDVscFZJZGRSNVNBTUlkOFVXQWlpU1V0SkpIcTFscXlhTW9GS2xDClZBZndMMGxqaWdETTdLUnd2cjQvNXg1U296VUNBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGTVhEamlHQmxsUTNFNWdscDVlMmV3WjlBOEUyTUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQjVhRGtqeHFDOHFOczZ3T2FBamZPNnB3WU04Z3d4TExQS0R5elhrZGdNClpSaHd0RWh4U2lSa3ZrSGRDejY1d3diNmVKYkhXM3JDWDhCSWhoRFpLTFFrOCs0NklPbFVmK1JUZ0hKNGpvQUIKdnFnVXNydk4wTzlxMjJTQ0ROK2xpR0JkWmdscmlRWmgxbzVFQVRzV0NKRVlhM214R3BVRmR0dU5lRFBDd3FpVwpDR3VWUlltcE9GRklDTzRBaHFCYy9RS0F4TkJZWEVZQmE4ZDV3MHFnTkVDY3hST3lCeHl0WEM1UEdzSmhGcGJRCnUwbmFpTFhtcWgyTW04ajBVMFRXakM0NHhqYXQ4ZmdhQUxiODkrb3hESzRDVjJzc0g0T29UVmZ5WmtHRVptc3gKYjdjZE93WHBTRGZwUVo1b2twVnBhS2UwYmt6OGp1WThkWXVqcXhkS001ODNGQm5WS09DV2RUYjJYNzNBNlhvYwpXN2pLOXFIbWdyMWhkTEFaNkJ6M2x5TnBYWHo5M25VclVQU1hEOHhSeGY1bjZHaUJWaUowVGxQZHJzamNuZk5lClNGRnNFeTJXbjVaUWx2cTlyRHRhQm9VV3czMzN6cjdRUGU4d0poYmphQ0pqaHBEZk1jUzVuNmlXWWFBY2lUd1AKdVZOTjczbnJ0VWQ1MTVOZWhrZWlKZWM9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
               }
             ],
             "master_authorized_networks_config": [],
-            "master_version": "1.33.5-gke.1162000",
+            "master_version": "1.33.5-gke.1080000",
             "mesh_certificates": [],
             "min_master_version": null,
             "monitoring_config": [
@@ -280,15 +941,15 @@
                 ],
                 "enable_components": [
                   "SYSTEM_COMPONENTS",
+                  "STORAGE",
+                  "HPA",
                   "POD",
                   "DAEMONSET",
                   "DEPLOYMENT",
                   "STATEFULSET",
                   "JOBSET",
-                  "STORAGE",
-                  "HPA",
-                  "KUBELET",
                   "CADVISOR",
+                  "KUBELET",
                   "DCGM"
                 ],
                 "managed_prometheus": [
@@ -318,7 +979,19 @@
                 "ephemeral_storage_local_ssd_config": [],
                 "fast_socket": [],
                 "gcfs_config": [],
-                "guest_accelerator": [],
+                "guest_accelerator": [
+                  {
+                    "count": 1,
+                    "gpu_driver_installation_config": [
+                      {
+                        "gpu_driver_version": "DEFAULT"
+                      }
+                    ],
+                    "gpu_partition_size": "",
+                    "gpu_sharing_config": [],
+                    "type": "nvidia-l4"
+                  }
+                ],
                 "gvnic": [],
                 "host_maintenance_policy": [],
                 "image_type": "COS_CONTAINERD",
@@ -331,13 +1004,13 @@
                   }
                 ],
                 "labels": {
-                  "node-pool-type": "default-pool"
+                  "node-pool-type": "gpu-pool"
                 },
                 "linux_node_config": [],
                 "local_nvme_ssd_block_config": [],
                 "local_ssd_count": 0,
                 "logging_variant": "DEFAULT",
-                "machine_type": "e2-medium",
+                "machine_type": "g2-standard-4",
                 "metadata": {
                   "disable-legacy-endpoints": "true"
                 },
@@ -349,6 +1022,7 @@
                 "preemptible": false,
                 "reservation_affinity": [],
                 "resource_labels": {
+                  "goog-gke-accelerator-type": "nvidia-l4",
                   "goog-gke-node-pool-provisioning-model": "on-demand"
                 },
                 "service_account": "default",
@@ -361,7 +1035,13 @@
                 "sole_tenant_config": [],
                 "spot": false,
                 "tags": [],
-                "taint": [],
+                "taint": [
+                  {
+                    "effect": "NO_SCHEDULE",
+                    "key": "nvidia.com/gpu",
+                    "value": "present"
+                  }
+                ],
                 "workload_metadata_config": []
               }
             ],
@@ -375,192 +1055,10 @@
                 "autoscaling": [],
                 "initial_node_count": 1,
                 "instance_group_urls": [
-                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-default-pool-3cf0a80b-grp"
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-gpu-pool-418e631d-grp"
                 ],
                 "managed_instance_group_urls": [
-                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-default-pool-3cf0a80b-grp"
-                ],
-                "management": [
-                  {
-                    "auto_repair": true,
-                    "auto_upgrade": true
-                  }
-                ],
-                "max_pods_per_node": 0,
-                "name": "default-pool",
-                "name_prefix": "",
-                "network_config": [],
-                "node_config": [
-                  {
-                    "advanced_machine_features": [],
-                    "boot_disk_kms_key": "",
-                    "confidential_nodes": [],
-                    "disk_size_gb": 100,
-                    "disk_type": "pd-standard",
-                    "ephemeral_storage_local_ssd_config": [],
-                    "fast_socket": [],
-                    "gcfs_config": [],
-                    "guest_accelerator": [],
-                    "gvnic": [],
-                    "host_maintenance_policy": [],
-                    "image_type": "COS_CONTAINERD",
-                    "kubelet_config": [
-                      {
-                        "cpu_cfs_quota": false,
-                        "cpu_cfs_quota_period": "",
-                        "cpu_manager_policy": "",
-                        "pod_pids_limit": 0
-                      }
-                    ],
-                    "labels": {
-                      "node-pool-type": "default-pool"
-                    },
-                    "linux_node_config": [],
-                    "local_nvme_ssd_block_config": [],
-                    "local_ssd_count": 0,
-                    "logging_variant": "DEFAULT",
-                    "machine_type": "e2-medium",
-                    "metadata": {
-                      "disable-legacy-endpoints": "true"
-                    },
-                    "min_cpu_platform": "",
-                    "node_group": "",
-                    "oauth_scopes": [
-                      "https://www.googleapis.com/auth/cloud-platform"
-                    ],
-                    "preemptible": false,
-                    "reservation_affinity": [],
-                    "resource_labels": {
-                      "goog-gke-node-pool-provisioning-model": "on-demand"
-                    },
-                    "service_account": "default",
-                    "shielded_instance_config": [
-                      {
-                        "enable_integrity_monitoring": true,
-                        "enable_secure_boot": false
-                      }
-                    ],
-                    "sole_tenant_config": [],
-                    "spot": false,
-                    "tags": [],
-                    "taint": [],
-                    "workload_metadata_config": []
-                  }
-                ],
-                "node_count": 1,
-                "node_locations": [
-                  "us-west1-a"
-                ],
-                "placement_policy": [],
-                "upgrade_settings": [
-                  {
-                    "blue_green_settings": [],
-                    "max_surge": 1,
-                    "max_unavailable": 0,
-                    "strategy": "SURGE"
-                  }
-                ],
-                "version": "1.33.5-gke.1162000"
-              },
-              {
-                "autoscaling": [],
-                "initial_node_count": 1,
-                "instance_group_urls": [
-                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-recorder-pool-86f92546-grp"
-                ],
-                "managed_instance_group_urls": [
-                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-recorder-pool-86f92546-grp"
-                ],
-                "management": [
-                  {
-                    "auto_repair": true,
-                    "auto_upgrade": true
-                  }
-                ],
-                "max_pods_per_node": 0,
-                "name": "recorder-pool",
-                "name_prefix": "",
-                "network_config": [],
-                "node_config": [
-                  {
-                    "advanced_machine_features": [],
-                    "boot_disk_kms_key": "",
-                    "confidential_nodes": [],
-                    "disk_size_gb": 100,
-                    "disk_type": "pd-standard",
-                    "ephemeral_storage_local_ssd_config": [],
-                    "fast_socket": [],
-                    "gcfs_config": [],
-                    "guest_accelerator": [],
-                    "gvnic": [],
-                    "host_maintenance_policy": [],
-                    "image_type": "COS_CONTAINERD",
-                    "kubelet_config": [
-                      {
-                        "cpu_cfs_quota": false,
-                        "cpu_cfs_quota_period": "",
-                        "cpu_manager_policy": "",
-                        "pod_pids_limit": 0
-                      }
-                    ],
-                    "labels": {
-                      "node-pool-type": "recorder-pool"
-                    },
-                    "linux_node_config": [],
-                    "local_nvme_ssd_block_config": [],
-                    "local_ssd_count": 0,
-                    "logging_variant": "DEFAULT",
-                    "machine_type": "e2-standard-16",
-                    "metadata": {
-                      "disable-legacy-endpoints": "true"
-                    },
-                    "min_cpu_platform": "",
-                    "node_group": "",
-                    "oauth_scopes": [
-                      "https://www.googleapis.com/auth/cloud-platform"
-                    ],
-                    "preemptible": false,
-                    "reservation_affinity": [],
-                    "resource_labels": {
-                      "goog-gke-node-pool-provisioning-model": "on-demand"
-                    },
-                    "service_account": "default",
-                    "shielded_instance_config": [
-                      {
-                        "enable_integrity_monitoring": true,
-                        "enable_secure_boot": false
-                      }
-                    ],
-                    "sole_tenant_config": [],
-                    "spot": false,
-                    "tags": [],
-                    "taint": [],
-                    "workload_metadata_config": []
-                  }
-                ],
-                "node_count": 1,
-                "node_locations": [
-                  "us-west1-a"
-                ],
-                "placement_policy": [],
-                "upgrade_settings": [
-                  {
-                    "blue_green_settings": [],
-                    "max_surge": 1,
-                    "max_unavailable": 0,
-                    "strategy": "SURGE"
-                  }
-                ],
-                "version": "1.33.5-gke.1162000"
-              },
-              {
-                "autoscaling": [],
-                "initial_node_count": 1,
-                "instance_group_urls": [
-                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-gpu-pool-d0212343-grp"
-                ],
-                "managed_instance_group_urls": [
-                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-gpu-pool-d0212343-grp"
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-gpu-pool-418e631d-grp"
                 ],
                 "management": [
                   {
@@ -661,7 +1159,280 @@
                     "strategy": "SURGE"
                   }
                 ],
-                "version": "1.33.5-gke.1162000"
+                "version": "1.33.5-gke.1080000"
+              },
+              {
+                "autoscaling": [],
+                "initial_node_count": 5,
+                "instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-default-pool-e8f29a6f-grp"
+                ],
+                "managed_instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-default-pool-e8f29a6f-grp"
+                ],
+                "management": [
+                  {
+                    "auto_repair": true,
+                    "auto_upgrade": true
+                  }
+                ],
+                "max_pods_per_node": 0,
+                "name": "default-pool",
+                "name_prefix": "",
+                "network_config": [],
+                "node_config": [
+                  {
+                    "advanced_machine_features": [],
+                    "boot_disk_kms_key": "",
+                    "confidential_nodes": [],
+                    "disk_size_gb": 100,
+                    "disk_type": "pd-standard",
+                    "ephemeral_storage_local_ssd_config": [],
+                    "fast_socket": [],
+                    "gcfs_config": [],
+                    "guest_accelerator": [],
+                    "gvnic": [],
+                    "host_maintenance_policy": [],
+                    "image_type": "COS_CONTAINERD",
+                    "kubelet_config": [
+                      {
+                        "cpu_cfs_quota": false,
+                        "cpu_cfs_quota_period": "",
+                        "cpu_manager_policy": "",
+                        "pod_pids_limit": 0
+                      }
+                    ],
+                    "labels": {
+                      "node-pool-type": "default-pool"
+                    },
+                    "linux_node_config": [],
+                    "local_nvme_ssd_block_config": [],
+                    "local_ssd_count": 0,
+                    "logging_variant": "DEFAULT",
+                    "machine_type": "e2-medium",
+                    "metadata": {
+                      "disable-legacy-endpoints": "true"
+                    },
+                    "min_cpu_platform": "",
+                    "node_group": "",
+                    "oauth_scopes": [
+                      "https://www.googleapis.com/auth/cloud-platform"
+                    ],
+                    "preemptible": false,
+                    "reservation_affinity": [],
+                    "resource_labels": {
+                      "goog-gke-node-pool-provisioning-model": "on-demand"
+                    },
+                    "service_account": "default",
+                    "shielded_instance_config": [
+                      {
+                        "enable_integrity_monitoring": true,
+                        "enable_secure_boot": false
+                      }
+                    ],
+                    "sole_tenant_config": [],
+                    "spot": false,
+                    "tags": [],
+                    "taint": [],
+                    "workload_metadata_config": []
+                  }
+                ],
+                "node_count": 5,
+                "node_locations": [
+                  "us-west1-a"
+                ],
+                "placement_policy": [],
+                "upgrade_settings": [
+                  {
+                    "blue_green_settings": [],
+                    "max_surge": 1,
+                    "max_unavailable": 0,
+                    "strategy": "SURGE"
+                  }
+                ],
+                "version": "1.33.5-gke.1080000"
+              },
+              {
+                "autoscaling": [],
+                "initial_node_count": 1,
+                "instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-streaming-pool-aabf093a-grp"
+                ],
+                "managed_instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-streaming-pool-aabf093a-grp"
+                ],
+                "management": [
+                  {
+                    "auto_repair": true,
+                    "auto_upgrade": true
+                  }
+                ],
+                "max_pods_per_node": 0,
+                "name": "streaming-pool",
+                "name_prefix": "",
+                "network_config": [],
+                "node_config": [
+                  {
+                    "advanced_machine_features": [],
+                    "boot_disk_kms_key": "",
+                    "confidential_nodes": [],
+                    "disk_size_gb": 100,
+                    "disk_type": "pd-standard",
+                    "ephemeral_storage_local_ssd_config": [],
+                    "fast_socket": [],
+                    "gcfs_config": [],
+                    "guest_accelerator": [],
+                    "gvnic": [],
+                    "host_maintenance_policy": [],
+                    "image_type": "COS_CONTAINERD",
+                    "kubelet_config": [
+                      {
+                        "cpu_cfs_quota": false,
+                        "cpu_cfs_quota_period": "",
+                        "cpu_manager_policy": "",
+                        "pod_pids_limit": 0
+                      }
+                    ],
+                    "labels": {
+                      "node-pool-type": "streaming-pool"
+                    },
+                    "linux_node_config": [],
+                    "local_nvme_ssd_block_config": [],
+                    "local_ssd_count": 0,
+                    "logging_variant": "DEFAULT",
+                    "machine_type": "e2-standard-8",
+                    "metadata": {
+                      "disable-legacy-endpoints": "true"
+                    },
+                    "min_cpu_platform": "",
+                    "node_group": "",
+                    "oauth_scopes": [
+                      "https://www.googleapis.com/auth/cloud-platform"
+                    ],
+                    "preemptible": false,
+                    "reservation_affinity": [],
+                    "resource_labels": {
+                      "goog-gke-node-pool-provisioning-model": "on-demand"
+                    },
+                    "service_account": "default",
+                    "shielded_instance_config": [
+                      {
+                        "enable_integrity_monitoring": true,
+                        "enable_secure_boot": false
+                      }
+                    ],
+                    "sole_tenant_config": [],
+                    "spot": false,
+                    "tags": [],
+                    "taint": [],
+                    "workload_metadata_config": []
+                  }
+                ],
+                "node_count": 1,
+                "node_locations": [
+                  "us-west1-a"
+                ],
+                "placement_policy": [],
+                "upgrade_settings": [
+                  {
+                    "blue_green_settings": [],
+                    "max_surge": 1,
+                    "max_unavailable": 0,
+                    "strategy": "SURGE"
+                  }
+                ],
+                "version": "1.33.5-gke.1080000"
+              },
+              {
+                "autoscaling": [],
+                "initial_node_count": 10,
+                "instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-recorder-pool-32654600-grp"
+                ],
+                "managed_instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-recorder-pool-32654600-grp"
+                ],
+                "management": [
+                  {
+                    "auto_repair": true,
+                    "auto_upgrade": true
+                  }
+                ],
+                "max_pods_per_node": 0,
+                "name": "recorder-pool",
+                "name_prefix": "",
+                "network_config": [],
+                "node_config": [
+                  {
+                    "advanced_machine_features": [],
+                    "boot_disk_kms_key": "",
+                    "confidential_nodes": [],
+                    "disk_size_gb": 100,
+                    "disk_type": "pd-standard",
+                    "ephemeral_storage_local_ssd_config": [],
+                    "fast_socket": [],
+                    "gcfs_config": [],
+                    "guest_accelerator": [],
+                    "gvnic": [],
+                    "host_maintenance_policy": [],
+                    "image_type": "COS_CONTAINERD",
+                    "kubelet_config": [
+                      {
+                        "cpu_cfs_quota": false,
+                        "cpu_cfs_quota_period": "",
+                        "cpu_manager_policy": "",
+                        "pod_pids_limit": 0
+                      }
+                    ],
+                    "labels": {
+                      "node-pool-type": "recorder-pool"
+                    },
+                    "linux_node_config": [],
+                    "local_nvme_ssd_block_config": [],
+                    "local_ssd_count": 0,
+                    "logging_variant": "DEFAULT",
+                    "machine_type": "e2-standard-8",
+                    "metadata": {
+                      "disable-legacy-endpoints": "true"
+                    },
+                    "min_cpu_platform": "",
+                    "node_group": "",
+                    "oauth_scopes": [
+                      "https://www.googleapis.com/auth/cloud-platform"
+                    ],
+                    "preemptible": false,
+                    "reservation_affinity": [],
+                    "resource_labels": {
+                      "goog-gke-node-pool-provisioning-model": "on-demand"
+                    },
+                    "service_account": "default",
+                    "shielded_instance_config": [
+                      {
+                        "enable_integrity_monitoring": true,
+                        "enable_secure_boot": false
+                      }
+                    ],
+                    "sole_tenant_config": [],
+                    "spot": false,
+                    "tags": [],
+                    "taint": [],
+                    "workload_metadata_config": []
+                  }
+                ],
+                "node_count": 10,
+                "node_locations": [
+                  "us-west1-a"
+                ],
+                "placement_policy": [],
+                "upgrade_settings": [
+                  {
+                    "blue_green_settings": [],
+                    "max_surge": 1,
+                    "max_unavailable": 0,
+                    "strategy": "SURGE"
+                  }
+                ],
+                "version": "1.33.5-gke.1080000"
               }
             ],
             "node_pool_auto_config": [
@@ -678,7 +1449,7 @@
                 ]
               }
             ],
-            "node_version": "1.33.5-gke.1162000",
+            "node_version": "1.33.5-gke.1080000",
             "notification_config": [
               {
                 "pubsub": [
@@ -702,9 +1473,9 @@
                 ],
                 "master_ipv4_cidr_block": "",
                 "peering_name": "",
-                "private_endpoint": "10.10.0.16",
+                "private_endpoint": "10.10.0.14",
                 "private_endpoint_subnetwork": "",
-                "public_endpoint": "136.117.90.30"
+                "public_endpoint": "136.117.172.113"
               }
             ],
             "private_ipv6_google_access": "",
@@ -714,7 +1485,7 @@
                 "channel": "REGULAR"
               }
             ],
-            "remove_default_node_pool": true,
+            "remove_default_node_pool": null,
             "resource_labels": {},
             "resource_usage_export_config": [],
             "security_posture_config": [
@@ -731,18 +1502,18 @@
             ],
             "services_ipv4_cidr": "10.31.240.0/20",
             "subnetwork": "projects/lagorgeous-helping-hands/regions/us-west1/subnetworks/gke-subnet",
-            "timeouts": null,
+            "timeouts": {
+              "create": null,
+              "delete": null,
+              "read": null,
+              "update": null
+            },
             "tpu_ipv4_cidr_block": "",
             "vertical_pod_autoscaling": [],
             "workload_identity_config": []
           },
           "sensitive_attributes": [],
-          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDAsInJlYWQiOjI0MDAwMDAwMDAwMDAsInVwZGF0ZSI6MzYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
-          "dependencies": [
-            "google_compute_network.vpc",
-            "google_compute_subnetwork.gke_subnet",
-            "google_project_service.gke"
-          ]
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDAsInJlYWQiOjI0MDAwMDAwMDAwMDAsInVwZGF0ZSI6MzYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9"
         }
       ]
     },
@@ -758,13 +1529,13 @@
             "autoscaling": [],
             "cluster": "gke-cluster",
             "id": "projects/lagorgeous-helping-hands/locations/us-west1/clusters/gke-cluster/nodePools/default-pool",
-            "initial_node_count": 1,
+            "initial_node_count": 5,
             "instance_group_urls": [
-              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-default-pool-3cf0a80b-grp"
+              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-default-pool-e8f29a6f-grp"
             ],
             "location": "us-west1",
             "managed_instance_group_urls": [
-              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-default-pool-3cf0a80b-grp"
+              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-default-pool-e8f29a6f-grp"
             ],
             "management": [
               {
@@ -833,14 +1604,18 @@
                 "workload_metadata_config": []
               }
             ],
-            "node_count": 1,
+            "node_count": 5,
             "node_locations": [
               "us-west1-a"
             ],
             "operation": null,
             "placement_policy": [],
             "project": "lagorgeous-helping-hands",
-            "timeouts": null,
+            "timeouts": {
+              "create": null,
+              "delete": null,
+              "update": null
+            },
             "upgrade_settings": [
               {
                 "blue_green_settings": [],
@@ -849,18 +1624,10 @@
                 "strategy": "SURGE"
               }
             ],
-            "version": "1.33.5-gke.1162000"
+            "version": "1.33.5-gke.1080000"
           },
           "sensitive_attributes": [],
-          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
-          "dependencies": [
-            "google_compute_network.vpc",
-            "google_compute_subnetwork.gke_subnet",
-            "google_container_cluster.primary",
-            "google_project_service.compute",
-            "google_project_service.gke",
-            "time_sleep.wait_for_api"
-          ]
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9"
         }
       ]
     },
@@ -878,11 +1645,11 @@
             "id": "projects/lagorgeous-helping-hands/locations/us-west1/clusters/gke-cluster/nodePools/gpu-pool",
             "initial_node_count": 1,
             "instance_group_urls": [
-              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-gpu-pool-d0212343-grp"
+              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-gpu-pool-418e631d-grp"
             ],
             "location": "us-west1",
             "managed_instance_group_urls": [
-              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-gpu-pool-d0212343-grp"
+              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-gpu-pool-418e631d-grp"
             ],
             "management": [
               {
@@ -986,7 +1753,7 @@
                 "strategy": "SURGE"
               }
             ],
-            "version": "1.33.5-gke.1162000"
+            "version": "1.33.5-gke.1080000"
           },
           "sensitive_attributes": [],
           "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
@@ -1004,22 +1771,23 @@
     {
       "mode": "managed",
       "type": "google_container_node_pool",
-      "name": "recorder-pool",
+      "name": "recorder_pool",
       "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
       "instances": [
         {
+          "status": "tainted",
           "schema_version": 1,
           "attributes": {
             "autoscaling": [],
             "cluster": "gke-cluster",
             "id": "projects/lagorgeous-helping-hands/locations/us-west1/clusters/gke-cluster/nodePools/recorder-pool",
-            "initial_node_count": 1,
+            "initial_node_count": 10,
             "instance_group_urls": [
-              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-recorder-pool-86f92546-grp"
+              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-recorder-pool-32654600-grp"
             ],
             "location": "us-west1",
             "managed_instance_group_urls": [
-              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-recorder-pool-86f92546-grp"
+              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-recorder-pool-32654600-grp"
             ],
             "management": [
               {
@@ -1060,7 +1828,123 @@
                 "local_nvme_ssd_block_config": [],
                 "local_ssd_count": 0,
                 "logging_variant": "DEFAULT",
-                "machine_type": "e2-standard-16",
+                "machine_type": "e2-standard-8",
+                "metadata": {
+                  "disable-legacy-endpoints": "true"
+                },
+                "min_cpu_platform": "",
+                "node_group": "",
+                "oauth_scopes": [
+                  "https://www.googleapis.com/auth/cloud-platform"
+                ],
+                "preemptible": false,
+                "reservation_affinity": [],
+                "resource_labels": {
+                  "goog-gke-node-pool-provisioning-model": "on-demand"
+                },
+                "service_account": "default",
+                "shielded_instance_config": [
+                  {
+                    "enable_integrity_monitoring": true,
+                    "enable_secure_boot": false
+                  }
+                ],
+                "sole_tenant_config": [],
+                "spot": false,
+                "tags": null,
+                "taint": [],
+                "workload_metadata_config": []
+              }
+            ],
+            "node_count": 10,
+            "node_locations": [
+              "us-west1-a"
+            ],
+            "operation": null,
+            "placement_policy": [],
+            "project": "lagorgeous-helping-hands",
+            "timeouts": null,
+            "upgrade_settings": [
+              {
+                "blue_green_settings": [],
+                "max_surge": 1,
+                "max_unavailable": 0,
+                "strategy": "SURGE"
+              }
+            ],
+            "version": "1.33.5-gke.1080000"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc",
+            "google_compute_subnetwork.gke_subnet",
+            "google_container_cluster.primary",
+            "google_project_service.gke"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_container_node_pool",
+      "name": "streaming_pool",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "autoscaling": [],
+            "cluster": "gke-cluster",
+            "id": "projects/lagorgeous-helping-hands/locations/us-west1/clusters/gke-cluster/nodePools/streaming-pool",
+            "initial_node_count": 1,
+            "instance_group_urls": [
+              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroupManagers/gke-gke-cluster-streaming-pool-aabf093a-grp"
+            ],
+            "location": "us-west1",
+            "managed_instance_group_urls": [
+              "https://www.googleapis.com/compute/v1/projects/lagorgeous-helping-hands/zones/us-west1-a/instanceGroups/gke-gke-cluster-streaming-pool-aabf093a-grp"
+            ],
+            "management": [
+              {
+                "auto_repair": true,
+                "auto_upgrade": true
+              }
+            ],
+            "max_pods_per_node": null,
+            "name": "streaming-pool",
+            "name_prefix": "",
+            "network_config": [],
+            "node_config": [
+              {
+                "advanced_machine_features": [],
+                "boot_disk_kms_key": "",
+                "confidential_nodes": [],
+                "disk_size_gb": 100,
+                "disk_type": "pd-standard",
+                "ephemeral_storage_local_ssd_config": [],
+                "fast_socket": [],
+                "gcfs_config": [],
+                "guest_accelerator": [],
+                "gvnic": [],
+                "host_maintenance_policy": [],
+                "image_type": "COS_CONTAINERD",
+                "kubelet_config": [
+                  {
+                    "cpu_cfs_quota": false,
+                    "cpu_cfs_quota_period": "",
+                    "cpu_manager_policy": "",
+                    "pod_pids_limit": 0
+                  }
+                ],
+                "labels": {
+                  "node-pool-type": "streaming-pool"
+                },
+                "linux_node_config": [],
+                "local_nvme_ssd_block_config": [],
+                "local_ssd_count": 0,
+                "logging_variant": "DEFAULT",
+                "machine_type": "e2-standard-8",
                 "metadata": {
                   "disable-legacy-endpoints": "true"
                 },
@@ -1104,17 +1988,16 @@
                 "strategy": "SURGE"
               }
             ],
-            "version": "1.33.5-gke.1162000"
+            "version": "1.33.5-gke.1080000"
           },
           "sensitive_attributes": [],
           "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
           "dependencies": [
+            "data.google_container_cluster.primary",
             "google_compute_network.vpc",
             "google_compute_subnetwork.gke_subnet",
             "google_container_cluster.primary",
-            "google_project_service.compute",
-            "google_project_service.gke",
-            "time_sleep.wait_for_api"
+            "google_project_service.gke"
           ]
         }
       ]
@@ -1133,7 +2016,7 @@
             "etag": "",
             "file_shares": [
               {
-                "capacity_gb": 2048,
+                "capacity_gb": 1024,
                 "name": "fileshare",
                 "nfs_export_options": [],
                 "source_backup": ""
@@ -1202,7 +2085,7 @@
           "schema_version": 0,
           "attributes": {
             "condition": [],
-            "etag": "BwZCepq4tRU=",
+            "etag": "BwZB8ql1XDc=",
             "id": "lagorgeous-helping-hands/roles/file.editor/serviceAccount:filestore-accessor@lagorgeous-helping-hands.iam.gserviceaccount.com",
             "member": "serviceAccount:filestore-accessor@lagorgeous-helping-hands.iam.gserviceaccount.com",
             "project": "lagorgeous-helping-hands",
@@ -1226,7 +2109,7 @@
           "schema_version": 0,
           "attributes": {
             "condition": [],
-            "etag": "BwZCepq4tRU=",
+            "etag": "BwZB8ql1XDc=",
             "id": "lagorgeous-helping-hands/roles/cloudbuild.builds.editor/user:lagorgeous.creator@gmail.com",
             "member": "user:lagorgeous.creator@gmail.com",
             "project": "lagorgeous-helping-hands",
@@ -1247,7 +2130,7 @@
           "schema_version": 0,
           "attributes": {
             "condition": [],
-            "etag": "BwZCepq4tRU=",
+            "etag": "BwZB8ql1XDc=",
             "id": "lagorgeous-helping-hands/roles/owner/user:lagorgeous.creator@gmail.com",
             "member": "user:lagorgeous.creator@gmail.com",
             "project": "lagorgeous-helping-hands",
@@ -1268,7 +2151,7 @@
           "schema_version": 0,
           "attributes": {
             "condition": [],
-            "etag": "BwZCepq4tRU=",
+            "etag": "BwZB8ql1XDc=",
             "id": "lagorgeous-helping-hands/roles/cloudbuild.builds.editor/user:perbhatk@gmail.com",
             "member": "user:perbhatk@gmail.com",
             "project": "lagorgeous-helping-hands",
@@ -1276,30 +2159,6 @@
           },
           "sensitive_attributes": [],
           "private": "bnVsbA=="
-        }
-      ]
-    },
-    {
-      "mode": "managed",
-      "type": "google_project_iam_member",
-      "name": "pubsub_publisher",
-      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "condition": [],
-            "etag": "BwZCepq4tRU=",
-            "id": "lagorgeous-helping-hands/roles/pubsub.publisher/serviceAccount:815782769119-compute@developer.gserviceaccount.com",
-            "member": "serviceAccount:815782769119-compute@developer.gserviceaccount.com",
-            "project": "lagorgeous-helping-hands",
-            "role": "roles/pubsub.publisher"
-          },
-          "sensitive_attributes": [],
-          "private": "bnVsbA==",
-          "dependencies": [
-            "data.google_project.project"
-          ]
         }
       ]
     },
@@ -1696,50 +2555,6 @@
             "google_project_service.servicenetworking",
             "time_sleep.wait_for_api"
           ]
-        }
-      ]
-    },
-    {
-      "mode": "managed",
-      "type": "google_storage_bucket",
-      "name": "standard_storage_bucket",
-      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "autoclass": [],
-            "cors": [],
-            "custom_placement_config": [],
-            "default_event_based_hold": false,
-            "encryption": [],
-            "force_destroy": false,
-            "id": "lagorgeous-helping-hands-standard",
-            "labels": {},
-            "lifecycle_rule": [],
-            "location": "US-WEST1",
-            "logging": [],
-            "name": "lagorgeous-helping-hands-standard",
-            "project": "lagorgeous-helping-hands",
-            "public_access_prevention": "inherited",
-            "requester_pays": false,
-            "retention_policy": [],
-            "self_link": "https://www.googleapis.com/storage/v1/b/lagorgeous-helping-hands-standard",
-            "soft_delete_policy": [
-              {
-                "effective_time": "2025-11-03T19:00:31.361Z",
-                "retention_duration_seconds": 604800
-              }
-            ],
-            "storage_class": "STANDARD",
-            "timeouts": null,
-            "uniform_bucket_level_access": false,
-            "url": "gs://lagorgeous-helping-hands-standard",
-            "versioning": [],
-            "website": []
-          },
-          "sensitive_attributes": [],
-          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsInJlYWQiOjI0MDAwMDAwMDAwMCwidXBkYXRlIjoyNDAwMDAwMDAwMDB9fQ=="
         }
       ]
     },

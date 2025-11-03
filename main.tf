@@ -158,12 +158,6 @@ resource "google_service_networking_connection" "vertex_ai_peering" {
   depends_on              = [google_compute_global_address.vertex_ai_peering_range]
 }
 
-# GKE Cluster
-data "google_container_cluster" "primary" {
-  name     = "gke-cluster"
-  location = "us-west1"
-}
-
 resource "google_container_cluster" "primary" {
   name     = "gke-cluster"
   location = "us-west1"
@@ -191,13 +185,32 @@ resource "google_container_cluster" "primary" {
 }
 
 resource "google_container_node_pool" "default_pool" {
-  name       = "default-pool"
-  location   = "us-west1"
+  name           = "default-pool"
+  location       = "us-west1"
   node_locations = ["us-west1-a"]
-  cluster    = google_container_cluster.primary.name
-  node_count = 5
-  version    = data.google_container_cluster.primary.master_version
+  cluster        = google_container_cluster.primary.name
+  node_count     = 1
+  version        = var.node_version
+
+  lifecycle {
+    ignore_changes = [
+      node_config[0].kubelet_config,
+      node_config[0].resource_labels,
+    ]
+  }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
+  }
+
+  upgrade_settings {
+    max_surge       = 1
+    max_unavailable = 0
+  }
+
   node_config {
+    image_type   = "COS_CONTAINERD"
     machine_type = "e2-medium"
     disk_size_gb = 100
     disk_type    = "pd-standard"
@@ -210,18 +223,30 @@ resource "google_container_node_pool" "default_pool" {
   }
 }
 
+
 resource "google_container_node_pool" "gpu_pool" {
-  name       = "gpu-pool"
-  location   = "us-west1"
+  name           = "gpu-pool"
+  location       = "us-west1"
   node_locations = ["us-west1-a"]
-  cluster    = google_container_cluster.primary.name
-  node_count = 1
+  cluster        = google_container_cluster.primary.name
+  node_count     = 1
+  version        = var.node_version
 
   lifecycle {
-    ignore_changes = all
+    ignore_changes = [
+      node_config[0].kubelet_config,
+      node_config[0].resource_labels,
+      node_config[0].guest_accelerator,
+    ]
+  }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
   }
 
   node_config {
+    image_type   = "COS_CONTAINERD"
     machine_type = "g2-standard-4"
     disk_size_gb = 100
     disk_type    = "pd-standard"
@@ -239,23 +264,41 @@ resource "google_container_node_pool" "gpu_pool" {
   }
 }
 
-resource "google_container_node_pool" "streaming_pool" {
-  name       = "streaming-pool"
-  location   = "us-west1"
+resource "google_container_node_pool" "recorder-pool" {
+  name           = "recorder-pool"
+  location       = "us-west1"
   node_locations = ["us-west1-a"]
-  cluster    = google_container_cluster.primary.name
-  node_count = 1
-  version    = data.google_container_cluster.primary.master_version
+  cluster        = google_container_cluster.primary.name
+  node_count     = 1
+  version        = var.node_version
+
+  lifecycle {
+    ignore_changes = [
+      node_config[0].kubelet_config,
+      node_config[0].resource_labels,
+    ]
+  }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
+  }
+
+  upgrade_settings {
+    max_surge       = 1
+    max_unavailable = 0
+  }
 
   node_config {
-    machine_type = "e2-standard-8"
+    image_type   = "COS_CONTAINERD"
+    machine_type = "e2-standard-16"
     disk_size_gb = 100
     disk_type    = "pd-standard"
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
     labels = {
-      "node-pool-type" = "streaming-pool"
+      "node-pool-type" = "recorder-pool"
     }
   }
 }
@@ -267,7 +310,7 @@ resource "google_filestore_instance" "nfs_store" {
   tier     = "STANDARD"
 
   file_shares {
-    capacity_gb = 1024
+    capacity_gb = 2048
     name        = "fileshare"
   }
 
@@ -307,6 +350,16 @@ output "filestore_ip_address" {
 
 output "filestore_file_share_name" {
   value = google_filestore_instance.nfs_store.file_shares[0].name
+}
+
+resource "google_storage_bucket" "standard_storage_bucket" {
+  name          = "lagorgeous-helping-hands-standard"
+  location      = "US-WEST1"
+  storage_class = "STANDARD"
+}
+
+output "standard_storage_bucket_name" {
+  value = google_storage_bucket.standard_storage_bucket.name
 }
 
 resource "google_project_iam_member" "lagorgeous_owner" {
@@ -471,4 +524,12 @@ resource "google_monitoring_dashboard" "pubsub_dashboard" {
   }
 }
 EOF
+}
+
+data "google_project" "project" {}
+
+resource "google_project_iam_member" "pubsub_publisher" {
+  project = "lagorgeous-helping-hands"
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com"
 }
