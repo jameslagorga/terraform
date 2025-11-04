@@ -310,7 +310,7 @@ resource "google_filestore_instance" "nfs_store" {
   tier     = "STANDARD"
 
   file_shares {
-    capacity_gb = 2048
+    capacity_gb = 5120
     name        = "fileshare"
   }
 
