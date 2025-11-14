@@ -190,7 +190,7 @@ resource "google_container_node_pool" "default_pool" {
   node_locations = ["us-west1-a"]
   cluster        = google_container_cluster.primary.name
   node_count     = 1
-  version        = var.node_version
+  version        = "1.33.5-gke.1201000"
 
   lifecycle {
     ignore_changes = [
@@ -224,13 +224,13 @@ resource "google_container_node_pool" "default_pool" {
 }
 
 
-resource "google_container_node_pool" "gpu_pool" {
-  name           = "gpu-pool"
+resource "google_container_node_pool" "gpu_pool_l4" {
+  name           = "gpu-pool-l4"
   location       = "us-west1"
   node_locations = ["us-west1-a"]
   cluster        = google_container_cluster.primary.name
   node_count     = 1
-  version        = var.node_version
+  version        = "1.33.5-gke.1201000"
 
   lifecycle {
     ignore_changes = [
@@ -247,14 +247,14 @@ resource "google_container_node_pool" "gpu_pool" {
 
   node_config {
     image_type   = "COS_CONTAINERD"
-    machine_type = "g2-standard-4"
+    machine_type = "g2-standard-8"
     disk_size_gb = 100
     disk_type    = "pd-standard"
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
     labels = {
-      "node-pool-type" = "gpu-pool"
+      "node-pool-type" = "gpu-pool-l4"
     }
 
     guest_accelerator {
@@ -270,7 +270,7 @@ resource "google_container_node_pool" "recorder-pool" {
   node_locations = ["us-west1-a"]
   cluster        = google_container_cluster.primary.name
   node_count     = 1
-  version        = var.node_version
+  version        = "1.33.5-gke.1201000"
 
   lifecycle {
     ignore_changes = [
@@ -333,6 +333,10 @@ resource "google_project_iam_member" "filestore_iam" {
   project = "lagorgeous-helping-hands"
   role    = "roles/file.editor"
   member  = "serviceAccount:${google_service_account.filestore_accessor.email}"
+}
+
+resource "google_compute_address" "nginx_static_ip" {
+  name = "nginx-static-ip"
 }
 
 # Outputs
