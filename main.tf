@@ -50,7 +50,8 @@ resource "google_project_service" "servicenetworking" {
 
 
 resource "google_compute_address" "nginx_static_ip" {
-  name = "nginx-static-ip"
+  name    = "nginx-static-ip"
+  region  = "us-west1"
 }
 
 # Outputs
