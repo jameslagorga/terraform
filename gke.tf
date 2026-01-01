@@ -49,7 +49,7 @@ resource "google_container_node_pool" "default_pool" {
 
   node_config {
     image_type   = "COS_CONTAINERD"
-    machine_type = "e2-medium"
+    machine_type = "e2-standard-4"
     disk_size_gb = 100
     disk_type    = "pd-standard"
     oauth_scopes = [
@@ -74,7 +74,6 @@ resource "google_container_node_pool" "gpu_pool_l4" {
     ignore_changes = [
       node_config[0].kubelet_config,
       node_config[0].resource_labels,
-      node_config[0].guest_accelerator,
     ]
   }
 
@@ -85,7 +84,7 @@ resource "google_container_node_pool" "gpu_pool_l4" {
 
   node_config {
     image_type   = "COS_CONTAINERD"
-    machine_type = "n1-standard-1"
+    machine_type = "g2-standard-4"
     disk_size_gb = 100
     disk_type    = "pd-standard"
     oauth_scopes = [
@@ -93,6 +92,10 @@ resource "google_container_node_pool" "gpu_pool_l4" {
     ]
     labels = {
       "node-pool-type" = "gpu-pool-l4"
+    }
+    guest_accelerator {
+      type  = "nvidia-l4"
+      count = 1
     }
   }
 }
